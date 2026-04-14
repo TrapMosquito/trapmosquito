@@ -276,17 +276,16 @@
     <h2 style="color:var(--cream);">Ready to Reclaim<br><em>Your Yard?</em></h2>
     <p style="font-size:16px; line-height:1.75; color:rgba(245,240,232,0.65); margin-bottom:0;">We service Miami Dade and Broward County. Schedule your free consultation and we will assess your property and recommend the right plan.</p>
   </div>
-  <div class="cta-form">
+  <form class="cta-form" action="https://formspree.io/f/mwvakzvy" method="POST">
     <div class="form-row">
-      <input type="text" id="f-first" class="form-input" placeholder="First Name" />
-      <input type="text" id="f-last" class="form-input" placeholder="Last Name" />
+      <input type="text" name="first_name" class="form-input" placeholder="First Name" required />
+      <input type="text" name="last_name" class="form-input" placeholder="Last Name" />
     </div>
-    <input type="email" id="f-email" class="form-input" placeholder="Email Address" />
-    <input type="tel" id="f-phone" class="form-input" placeholder="Phone Number" />
-    <input type="text" id="f-zip" class="form-input" placeholder="Neighborhood or Zip Code" />
-    <button class="form-submit" id="consult-btn" onclick="submitConsultation(this)">Request Consultation</button>
-    <p id="form-success" style="display:none;font-size:13px;color:rgba(245,240,232,0.7);margin-top:4px;">We received your request and will be in touch within 24 hours.</p>
-  </div>
+    <input type="email" name="email" class="form-input" placeholder="Email Address" required />
+    <input type="tel" name="phone" class="form-input" placeholder="Phone Number" />
+    <input type="text" name="neighborhood" class="form-input" placeholder="Neighborhood or Zip Code" />
+    <button type="submit" class="form-submit">Request Consultation</button>
+  </form>
 </section>
 
 <footer>
