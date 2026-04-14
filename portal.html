@@ -18,7 +18,6 @@
   .nav-item { display:flex; align-items:center; gap:12px; padding:14px 28px; color:rgba(245,240,232,0.55); font-size:13px; cursor:pointer; transition:all 0.2s; border-left:3px solid transparent; text-decoration:none; }
   .nav-item:hover { color:var(--cream); background:rgba(245,240,232,0.05); }
   .nav-item.active { color:var(--cream); border-left-color:var(--sand); background:rgba(245,240,232,0.07); }
-  .nav-icon { font-size:16px; width:20px; text-align:center; }
   .sidebar-bottom { padding:24px 28px; border-top:1px solid rgba(245,240,232,0.08); }
   .user-name { font-size:13px; color:var(--cream); font-weight:400; }
   .user-email { font-size:11px; color:rgba(245,240,232,0.4); margin-top:3px; margin-bottom:16px; }
@@ -67,7 +66,7 @@
   .btn-manage { background:var(--mist); border:1px solid rgba(61,74,53,0.15); color:var(--moss); padding:12px 24px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:all 0.2s; }
   .btn-manage:hover { background:var(--moss); color:var(--cream); }
   .loading { display:flex; align-items:center; justify-content:center; min-height:200px; color:var(--sage); font-size:14px; }
-  @media(max-width:900px){ .sidebar{display:none;} .main{margin-left:0; padding:32px 20px;} .cards-grid,.plan-cards,.billing-info{grid-template-columns:1fr;} }
+  @media(max-width:900px){ .sidebar{display:none;} .main{margin-left:0;padding:32px 20px;} .cards-grid,.plan-cards,.billing-info{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -75,15 +74,15 @@
   <aside class="sidebar">
     <a href="index.html" class="sidebar-logo">Trap<span>Mosquito</span></a>
     <nav class="sidebar-nav">
-      <a class="nav-item active" onclick="showSection('overview',this)"><span class="nav-icon">◎</span> Overview</a>
-      <a class="nav-item" onclick="showSection('plan',this)"><span class="nav-icon">◇</span> My Plan</a>
-      <a class="nav-item" onclick="showSection('billing',this)"><span class="nav-icon">◈</span> Billing</a>
-      <a class="nav-item" onclick="showSection('service',this)"><span class="nav-icon">◷</span> Service History</a>
+      <a class="nav-item active" id="nav-overview"><span>◎</span> Overview</a>
+      <a class="nav-item" id="nav-plan"><span>◇</span> My Plan</a>
+      <a class="nav-item" id="nav-billing"><span>◈</span> Billing</a>
+      <a class="nav-item" id="nav-service"><span>◷</span> Service History</a>
     </nav>
     <div class="sidebar-bottom">
       <div class="user-name" id="sidebar-name">Loading...</div>
       <div class="user-email" id="sidebar-email"></div>
-      <button class="btn-signout" onclick="signOut()">Sign Out</button>
+      <button class="btn-signout" id="signout-btn">Sign Out</button>
     </div>
   </aside>
   <main class="main">
@@ -96,20 +95,20 @@
       <div class="section-block">
         <h3>Select a Plan</h3>
         <div class="plan-cards">
-          <div class="plan-card selected" onclick="selectPlan(this,'essential',129,'price_1TLueUFWLMLA8arha46YfCHp',299)">
+          <div class="plan-card selected" id="card-essential">
             <div class="plan-name">Essential</div><div class="plan-setup">$299 one-time setup</div>
             <div class="plan-price">$129<span>/mo</span></div>
             <ul class="plan-features"><li>1 TrapMosquito unit</li><li>Up to 5,000 sq ft</li><li>Monthly service</li></ul>
           </div>
-          <div class="plan-card" onclick="selectPlan(this,'premium',199,'price_1TLugDFWLMLA8arhfyqgAPp2',499)">
+          <div class="plan-card" id="card-premium">
             <div class="plan-card-badge">Popular</div>
             <div class="plan-name">Premium</div><div class="plan-setup">$499 one-time setup</div>
             <div class="plan-price">$199<span>/mo</span></div>
             <ul class="plan-features"><li>2 TrapMosquito units</li><li>Up to 1 full acre</li><li>Priority scheduling</li></ul>
           </div>
         </div>
-        <button class="btn-checkout" id="checkout-btn" onclick="startCheckout()">Proceed to Checkout — $299 setup + $129/mo</button>
-        <p style="font-size:12px; color:#8a8a7a; margin-top:12px; text-align:center;">Secure payment via Stripe. Cancel anytime.</p>
+        <button class="btn-checkout" id="checkout-btn">Proceed to Checkout — $299 setup + $129/mo</button>
+        <p style="font-size:12px;color:#8a8a7a;margin-top:12px;text-align:center;">Secure payment via Stripe. Cancel anytime.</p>
       </div>
     </section>
     <section class="page-section" id="section-billing">
@@ -122,129 +121,148 @@
           <div class="billing-item"><label>Monthly Amount</label><p id="billing-amount">—</p></div>
           <div class="billing-item"><label>Next Service Date</label><p id="billing-next">—</p></div>
         </div>
-        <button class="btn-manage" onclick="openStripePortal()">Manage Payment Method &amp; Invoices</button>
+        <button class="btn-manage" id="portal-btn">Manage Payment Method</button>
       </div>
     </section>
     <section class="page-section" id="section-service">
       <div class="page-header"><h1>Service <em>History</em></h1><p>A full log of every visit and tank swap.</p></div>
-      <div class="section-block" id="service-content"><div class="loading">Loading service history...</div></div>
+      <div class="section-block" id="service-content"><div class="loading">Loading...</div></div>
     </section>
   </main>
 </div>
 <script>
-  // ─── REPLACE THESE WITH YOUR ACTUAL VALUES ────────────────────────────────────
-  const SUPABASE_URL = 'https://gzynsejrcztdwvdvixkd.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eW5zZWpyY3p0ZHd2ZHZpeGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMjM5NTAsImV4cCI6MjA5MTY5OTk1MH0.CZFS0rGRSQhsXQwSXry1wW1NuqUfwcXeDzwU8sSwVI0';
-  const STRIPE_PORTAL_URL = 'https://billing.stripe.com/p/login/REPLACE_ME';
-  const SITE_URL = 'https://trapmosquito.com';
-  // ─────────────────────────────────────────────────────────────────────────────
+  var SUPABASE_URL = 'https://gzynsejrcztdwvdvixkd.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eW5zZWpyY3p0ZHd2ZHZpeGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMjM5NTAsImV4cCI6MjA5MTY5OTk1MH0.CZFS0rGRSQhsXQwSXry1wW1NuqUfwcXeDzwU8sSwVI0';
+  var STRIPE_PORTAL_URL = '';
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var currentUser = null;
+  var customerData = null;
+  var selectedPlan = { name:'essential', price:129, priceId:'price_1TLueUFWLMLA8arha46YfCHp', setup:299 };
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  let currentUser = null, customerData = null;
-  let selectedPlan = { name:'essential', price:129, priceId:'price_ESSENTIAL_ID_HERE', setup:299 };
+  // Nav
+  function showSection(name) {
+    document.querySelectorAll('.page-section').forEach(function(s){ s.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+    document.getElementById('section-'+name).classList.add('active');
+    document.getElementById('nav-'+name).classList.add('active');
+  }
+  document.getElementById('nav-overview').addEventListener('click', function(){ showSection('overview'); });
+  document.getElementById('nav-plan').addEventListener('click', function(){ showSection('plan'); });
+  document.getElementById('nav-billing').addEventListener('click', function(){ showSection('billing'); });
+  document.getElementById('nav-service').addEventListener('click', function(){ showSection('service'); });
 
-  window.addEventListener('load', async () => {
-    const { data:{ session } } = await supabase.auth.getSession();
-    if (!session) { window.location.href='login.html'; return; }
-    currentUser = session.user;
-    const meta = currentUser.user_metadata;
-    const firstName = (meta?.full_name||'there').split(' ')[0];
+  // Plan selection
+  document.getElementById('card-essential').addEventListener('click', function(){
+    document.getElementById('card-essential').classList.add('selected');
+    document.getElementById('card-premium').classList.remove('selected');
+    selectedPlan = { name:'essential', price:129, priceId:'price_1TLueUFWLMLA8arha46YfCHp', setup:299 };
+    document.getElementById('checkout-btn').textContent = 'Proceed to Checkout — $299 setup + $129/mo';
+  });
+  document.getElementById('card-premium').addEventListener('click', function(){
+    document.getElementById('card-premium').classList.add('selected');
+    document.getElementById('card-essential').classList.remove('selected');
+    selectedPlan = { name:'premium', price:199, priceId:'price_1TLugDFWLMLA8arhfyqgAPp2', setup:499 };
+    document.getElementById('checkout-btn').textContent = 'Proceed to Checkout — $499 setup + $199/mo';
+  });
+
+  // Sign out
+  document.getElementById('signout-btn').addEventListener('click', async function(){
+    await sb.auth.signOut();
+    window.location.href = 'login.html';
+  });
+
+  // Stripe portal
+  document.getElementById('portal-btn').addEventListener('click', function(){
+    if (!STRIPE_PORTAL_URL) { alert('Billing portal coming soon. Contact us at hello@trapmosquito.com to update your payment method.'); return; }
+    window.open(STRIPE_PORTAL_URL, '_blank');
+  });
+
+  // Checkout
+  document.getElementById('checkout-btn').addEventListener('click', async function(){
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Redirecting to checkout...';
+    try {
+      var res = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: selectedPlan.priceId, userId: currentUser.id, userEmail: currentUser.email, planName: selectedPlan.name })
+      });
+      var data = await res.json();
+      if (data.url) { window.location.href = data.url; }
+      else { alert('Checkout error. Please try again.'); btn.disabled=false; btn.textContent='Proceed to Checkout'; }
+    } catch(e) {
+      alert('Checkout is not yet fully configured. Please contact hello@trapmosquito.com to sign up.');
+      btn.disabled=false; btn.textContent='Proceed to Checkout';
+    }
+  });
+
+  // Load data
+  window.addEventListener('load', async function(){
+    var result = await sb.auth.getSession();
+    if (!result.data.session) { window.location.href='login.html'; return; }
+    currentUser = result.data.session.user;
+    var meta = currentUser.user_metadata;
+    var firstName = (meta && meta.full_name) ? meta.full_name.split(' ')[0] : 'there';
     document.getElementById('first-name').textContent = firstName;
-    document.getElementById('sidebar-name').textContent = meta?.full_name||'Customer';
+    document.getElementById('sidebar-name').textContent = (meta && meta.full_name) ? meta.full_name : 'Customer';
     document.getElementById('sidebar-email').textContent = currentUser.email;
-    const { data } = await supabase.from('customers').select('*').eq('user_id',currentUser.id).single();
-    customerData = data;
-    renderOverview(data);
-    renderBilling(data);
-    renderServiceHistory(data);
+
+    var dbResult = await sb.from('customers').select('*').eq('user_id', currentUser.id).single();
+    customerData = dbResult.data;
+    renderOverview(customerData);
+    renderBilling(customerData);
+    renderService(customerData);
   });
 
   function renderOverview(data) {
-    const el = document.getElementById('overview-content');
-    if (!data) { el.innerHTML='<div class="loading">No account found.</div>'; return; }
-    const active = data.subscription_status==='active';
-    const planLabel = data.plan ? data.plan.charAt(0).toUpperCase()+data.plan.slice(1) : 'None';
-    const nextSvc = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : 'Not scheduled';
-    el.innerHTML = `
-      <div class="status-banner ${active?'':'pending'}">
-        <div><div class="status-plan">Current Plan</div><h2>TrapMosquito ${planLabel}</h2><p>${active?'Your service is active and protecting your property.':'Complete checkout below to activate your service.'}</p></div>
-        <span class="status-badge ${active?'badge-active':'badge-pending'}">${active?'Active':'Pending'}</span>
-      </div>
-      <div class="cards-grid">
-        <div class="info-card"><div class="info-card-label">Next Service Visit</div><div class="info-card-value">${active?nextSvc.split(',')[0]:'—'}</div><div class="info-card-sub">${active?nextSvc:'Activate your plan to schedule'}</div></div>
-        <div class="info-card"><div class="info-card-label">Protection Status</div><div class="info-card-value">${active?'Active':'Inactive'}</div><div class="info-card-sub">${active?'Running 24/7':'Not yet activated'}</div></div>
-        <div class="info-card"><div class="info-card-label">Member Since</div><div class="info-card-value">${new Date(data.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'})}</div><div class="info-card-sub">Account in good standing</div></div>
-      </div>
-      ${!active?`<div class="section-block" style="background:rgba(92,122,82,0.06);border-color:rgba(92,122,82,0.2);"><h3 style="border-color:rgba(92,122,82,0.15);">Complete Your Setup</h3><p style="font-size:14px;color:#4a4a40;margin-bottom:20px;">Choose a plan and add your payment method to activate protection.</p><button class="btn-checkout" style="max-width:240px;" onclick="showSection('plan',null)">Choose a Plan →</button></div>`:''}`;
+    var el = document.getElementById('overview-content');
+    if (!data) { el.innerHTML='<div class="loading">No account data found.</div>'; return; }
+    var active = data.subscription_status === 'active';
+    var planLabel = data.plan ? (data.plan.charAt(0).toUpperCase() + data.plan.slice(1)) : 'None';
+    var nextSvc = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : 'Not scheduled';
+    el.innerHTML =
+      '<div class="status-banner ' + (active?'':'pending') + '">' +
+        '<div><div class="status-plan">Current Plan</div><h2>TrapMosquito ' + planLabel + '</h2><p>' + (active?'Your service is active and protecting your property.':'Complete checkout to activate your service.') + '</p></div>' +
+        '<span class="status-badge ' + (active?'badge-active':'badge-pending') + '">' + (active?'Active':'Pending') + '</span>' +
+      '</div>' +
+      '<div class="cards-grid">' +
+        '<div class="info-card"><div class="info-card-label">Next Service Visit</div><div class="info-card-value">' + (active?nextSvc.split(',')[0]:'—') + '</div><div class="info-card-sub">' + (active?nextSvc:'Activate your plan to schedule') + '</div></div>' +
+        '<div class="info-card"><div class="info-card-label">Protection Status</div><div class="info-card-value">' + (active?'Active':'Inactive') + '</div><div class="info-card-sub">' + (active?'Running 24/7':'Not yet activated') + '</div></div>' +
+        '<div class="info-card"><div class="info-card-label">Member Since</div><div class="info-card-value">' + new Date(data.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'}) + '</div><div class="info-card-sub">Account in good standing</div></div>' +
+      '</div>' +
+      (!active ? '<div class="section-block" style="background:rgba(92,122,82,0.06);border-color:rgba(92,122,82,0.2);"><h3 style="border-color:rgba(92,122,82,0.15);">Complete Your Setup</h3><p style="font-size:14px;color:#4a4a40;margin-bottom:20px;">Choose a plan and add your payment method to activate protection.</p><button class="btn-checkout" style="max-width:240px;" id="goto-plan-btn">Choose a Plan</button></div>' : '');
+    var gotoBtn = document.getElementById('goto-plan-btn');
+    if (gotoBtn) gotoBtn.addEventListener('click', function(){ showSection('plan'); });
   }
 
   function renderBilling(data) {
     if (!data) return;
-    const plans = { essential:'Essential — $129/mo', premium:'Premium — $199/mo', estate:'Estate (Custom)' };
-    const amounts = { essential:'$129.00/mo', premium:'$199.00/mo', estate:'Custom' };
-    document.getElementById('billing-plan').textContent = plans[data.plan]||'No plan selected';
-    document.getElementById('billing-status').textContent = data.subscription_status||'Pending';
-    document.getElementById('billing-amount').textContent = amounts[data.plan]||'—';
+    var plans = { essential:'Essential — $129/mo', premium:'Premium — $199/mo', estate:'Estate (Custom)' };
+    var amounts = { essential:'$129.00/mo', premium:'$199.00/mo', estate:'Custom' };
+    document.getElementById('billing-plan').textContent = plans[data.plan] || 'No plan selected';
+    document.getElementById('billing-status').textContent = data.subscription_status || 'Pending';
+    document.getElementById('billing-amount').textContent = amounts[data.plan] || '—';
     document.getElementById('billing-next').textContent = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : 'Not scheduled';
   }
 
-  function renderServiceHistory(data) {
-    const el = document.getElementById('service-content');
+  function renderService(data) {
+    var el = document.getElementById('service-content');
     if (!data || data.subscription_status !== 'active') { el.innerHTML='<p style="font-size:14px;color:#8a8a7a;padding:8px 0;">No service history yet. Your history will appear here after your first visit.</p>'; return; }
-    const nextDate = data.next_service_date ? new Date(data.next_service_date) : null;
-    el.innerHTML = `<table style="width:100%;border-collapse:collapse;">
-      <thead><tr>
-        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px;border-bottom:1px solid rgba(61,74,53,0.1);">Date</th>
-        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Service Type</th>
-        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Status</th>
-      </tr></thead>
-      <tbody>
-        ${nextDate ? `<tr><td style="padding:16px 0;font-size:13px;">${nextDate.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</td><td style="padding:16px 20px;font-size:13px;">Monthly CO₂ swap + cleaning</td><td style="padding:16px 20px;font-size:13px;"><span style="background:rgba(200,184,154,0.2);color:#a08050;padding:4px 10px;border-radius:2px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;">Upcoming</span></td></tr>` : ''}
-        <tr><td colspan="3" style="padding:24px 0;font-size:13px;color:#9a9a8a;">Previous visits will be logged here after each service.</td></tr>
-      </tbody>
-    </table>`;
+    var nextDate = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : null;
+    el.innerHTML = '<table style="width:100%;border-collapse:collapse;"><thead><tr>' +
+      '<th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px;border-bottom:1px solid rgba(61,74,53,0.1);">Date</th>' +
+      '<th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Service</th>' +
+      '<th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Status</th>' +
+      '</tr></thead><tbody>' +
+      (nextDate ? '<tr><td style="padding:16px 0;font-size:13px;">' + nextDate + '</td><td style="padding:16px 20px;font-size:13px;">Monthly CO₂ swap + cleaning</td><td style="padding:16px 20px;"><span style="background:rgba(200,184,154,0.2);color:#a08050;padding:4px 10px;border-radius:2px;font-size:11px;text-transform:uppercase;">Upcoming</span></td></tr>' : '') +
+      '<tr><td colspan="3" style="padding:20px 0;font-size:13px;color:#9a9a8a;">Previous visits will appear here after each service.</td></tr>' +
+      '</tbody></table>';
   }
 
-  function showSection(name, el) {
-    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    document.getElementById('section-'+name).classList.add('active');
-    if (el) el.classList.add('active');
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('success') === 'true') {
+    setTimeout(function(){ alert('Payment successful! Your service will be activated within 24 hours. We will reach out to schedule your installation.'); window.history.replaceState({},'',window.location.pathname); }, 800);
   }
-
-  function selectPlan(el, name, price, priceId, setup) {
-    document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedPlan = { name, price, priceId, setup };
-    document.getElementById('checkout-btn').textContent = `Proceed to Checkout — $${setup} setup + $${price}/mo`;
-  }
-
-  async function startCheckout() {
-    const btn = document.getElementById('checkout-btn');
-    btn.disabled=true; btn.textContent='Redirecting to checkout...';
-    // After deploying api/create-checkout.js, uncomment below and remove the alert:
-    /*
-    const res = await fetch('/api/create-checkout', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ priceId:selectedPlan.priceId, userId:currentUser.id, userEmail:currentUser.email, planName:selectedPlan.name })
-    });
-    const { url } = await res.json();
-    window.location.href = url;
-    */
-    alert('To activate payments:\n1. Deploy api/create-checkout.js to Vercel\n2. Add STRIPE_SECRET_KEY to Vercel environment variables\n3. Replace price_ESSENTIAL_ID_HERE and price_PREMIUM_ID_HERE with your real Stripe price IDs\n4. Uncomment the fetch block in startCheckout()\n\nSee SETUP_GUIDE.md for full step-by-step instructions.');
-    btn.disabled=false; btn.textContent=`Proceed to Checkout — $${selectedPlan.setup} setup + $${selectedPlan.price}/mo`;
-  }
-
-  function openStripePortal() {
-    if (STRIPE_PORTAL_URL.includes('REPLACE_ME')) { alert('Set up your Stripe Customer Portal first.\nStripe Dashboard → Settings → Billing → Customer Portal → Activate\nThen copy the link into STRIPE_PORTAL_URL at the top of portal.html'); return; }
-    window.open(STRIPE_PORTAL_URL,'_blank');
-  }
-
-  async function signOut() { await supabase.auth.signOut(); window.location.href='login.html'; }
-
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success')==='true') setTimeout(()=>{ alert('Payment successful! Your service will be activated within 24 hours. We will reach out to schedule your installation.'); window.history.replaceState({},'',window.location.pathname); }, 800);
 </script>
 </body>
 </html>
