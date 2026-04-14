@@ -278,13 +278,14 @@
   </div>
   <div class="cta-form">
     <div class="form-row">
-      <input type="text" class="form-input" placeholder="First Name" />
-      <input type="text" class="form-input" placeholder="Last Name" />
+      <input type="text" id="f-first" class="form-input" placeholder="First Name" />
+      <input type="text" id="f-last" class="form-input" placeholder="Last Name" />
     </div>
-    <input type="email" class="form-input" placeholder="Email Address" />
-    <input type="tel" class="form-input" placeholder="Phone Number" />
-    <input type="text" class="form-input" placeholder="Neighborhood or Zip Code" />
-    <button class="form-submit" onclick="this.textContent='Sent! We will be in touch.'; this.style.background='#7a8c6e'; this.style.color='white'; this.disabled=true;">Request Consultation</button>
+    <input type="email" id="f-email" class="form-input" placeholder="Email Address" />
+    <input type="tel" id="f-phone" class="form-input" placeholder="Phone Number" />
+    <input type="text" id="f-zip" class="form-input" placeholder="Neighborhood or Zip Code" />
+    <button class="form-submit" id="consult-btn" onclick="submitConsultation(this)">Request Consultation</button>
+    <p id="form-success" style="display:none;font-size:13px;color:rgba(245,240,232,0.7);margin-top:4px;">We received your request and will be in touch within 24 hours.</p>
   </div>
 </section>
 
@@ -295,14 +296,39 @@
   </div>
   <div class="footer-col"><h5>Service</h5><ul><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing</a></li><li><a href="login.html">Customer Portal</a></li></ul></div>
   <div class="footer-col"><h5>Company</h5><ul><li><a href="#">About Us</a></li><li><a href="#">Service Area</a></li><li><a href="#">Contact</a></li></ul></div>
-  <div class="footer-col"><h5>Contact</h5><ul><li><a href="mailto:hello@trapmosquito.com">hello@trapmosquito.com</a></li><li><a href="tel:3055550100">(305) 555-0100</a></li><li><a href="#">Miami, FL</a></li></ul></div>
+  <div class="footer-col"><h5>Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#0d65686161624d797f6c7d60627e7c78647962236e6260"><span class="__cf_email__" data-cfemail="224a474e4e4d62565043524f4d5153574b564d0c414d4f">[email&#160;protected]</span></a></li><li><a href="tel:3055550100">(305) 555-0100</a></li><li><a href="#">Miami, FL</a></li></ul></div>
 </footer>
 <div class="footer-bottom"><p>© 2026 TrapMosquito. All rights reserved.</p><p>trapmosquito.com</p></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  async function submitConsultation(btn) {
+    var first = document.getElementById("f-first").value.trim();
+    var last = document.getElementById("f-last").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    var phone = document.getElementById("f-phone").value.trim();
+    var zip = document.getElementById("f-zip").value.trim();
+    if (!first || !email) { alert("Please enter at least your name and email."); return; }
+    btn.disabled = true; btn.textContent = "Sending...";
+    try {
+      var res = await fetch("https://formspree.io/f/mwvakzvy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name: first + " " + last, email: email, phone: phone, neighborhood: zip })
+      });
+      if (res.ok) {
+        btn.textContent = "Sent!";
+        btn.style.background = "#7a8c6e";
+        btn.style.color = "white";
+        document.getElementById("form-success").style.display = "block";
+      } else {
+        btn.disabled = false; btn.textContent = "Request Consultation";
+        alert("Something went wrong. Please email hello@trapmosquito.com");
+      }
+    } catch(e) {
+      btn.disabled = false; btn.textContent = "Request Consultation";
+      alert("Something went wrong. Please email hello@trapmosquito.com");
+    }
+  }
+
   const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*80); obs.unobserve(e.target); } }), { threshold: 0.12 });
-  reveals.forEach(el => obs.observe(el));
-</script>
-</body>
-</html>
+  const obs = new Intersecti
