@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrapMosquito — My Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root { --cream:#f5f0e8; --moss:#3d4a35; --sage:#7a8c6e; --sand:#c8b89a; --charcoal:#1e2019; --mist:#e8ede3; --accent:#5c7a52; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--cream); font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; }
+  .layout { display:grid; grid-template-columns:260px 1fr; min-height:100vh; }
+  .sidebar { background:var(--moss); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; width:260px; }
+  .sidebar-logo { padding:32px 28px; font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); text-decoration:none; display:block; border-bottom:1px solid rgba(245,240,232,0.08); }
+  .sidebar-logo span { font-style:italic; color:var(--sand); }
+  .sidebar-nav { flex:1; padding:24px 0; display:flex; flex-direction:column; gap:2px; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:14px 28px; color:rgba(245,240,232,0.55); font-size:13px; cursor:pointer; transition:all 0.2s; border-left:3px solid transparent; text-decoration:none; }
+  .nav-item:hover { color:var(--cream); background:rgba(245,240,232,0.05); }
+  .nav-item.active { color:var(--cream); border-left-color:var(--sand); background:rgba(245,240,232,0.07); }
+  .nav-icon { font-size:16px; width:20px; text-align:center; }
+  .sidebar-bottom { padding:24px 28px; border-top:1px solid rgba(245,240,232,0.08); }
+  .user-name { font-size:13px; color:var(--cream); font-weight:400; }
+  .user-email { font-size:11px; color:rgba(245,240,232,0.4); margin-top:3px; margin-bottom:16px; }
+  .btn-signout { width:100%; background:rgba(245,240,232,0.08); border:1px solid rgba(245,240,232,0.12); color:rgba(245,240,232,0.6); padding:10px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:all 0.2s; }
+  .btn-signout:hover { background:rgba(245,240,232,0.14); color:var(--cream); }
+  .main { margin-left:260px; padding:48px 56px; }
+  .page-section { display:none; }
+  .page-section.active { display:block; }
+  .page-header { margin-bottom:40px; }
+  .page-header h1 { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; color:var(--moss); margin-bottom:6px; }
+  .page-header h1 em { font-style:italic; }
+  .page-header p { font-size:14px; color:#6a6a5a; }
+  .status-banner { background:var(--moss); border-radius:4px; padding:32px 36px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:24px; margin-bottom:32px; }
+  .status-banner.pending { background:#5a4a30; }
+  .status-plan { font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--sand); margin-bottom:8px; }
+  .status-banner h2 { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:300; color:var(--cream); margin-bottom:6px; }
+  .status-banner p { font-size:13px; color:rgba(245,240,232,0.55); }
+  .status-badge { padding:8px 18px; border-radius:2px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; white-space:nowrap; }
+  .badge-active { background:rgba(92,122,82,0.3); color:#a8d090; border:1px solid rgba(92,122,82,0.4); }
+  .badge-pending { background:rgba(200,184,154,0.2); color:var(--sand); border:1px solid rgba(200,184,154,0.3); }
+  .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:32px; }
+  .info-card { background:white; border:1px solid rgba(61,74,53,0.08); border-radius:4px; padding:28px; }
+  .info-card-label { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--sage); margin-bottom:12px; }
+  .info-card-value { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--moss); line-height:1; margin-bottom:6px; }
+  .info-card-sub { font-size:12px; color:#8a8a7a; }
+  .section-block { background:white; border:1px solid rgba(61,74,53,0.08); border-radius:4px; padding:32px; margin-bottom:24px; }
+  .section-block h3 { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:400; color:var(--moss); margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(61,74,53,0.08); }
+  .plan-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .plan-card { border:2px solid rgba(61,74,53,0.1); border-radius:4px; padding:28px; cursor:pointer; transition:all 0.2s; position:relative; }
+  .plan-card:hover { border-color:var(--sage); }
+  .plan-card.selected { border-color:var(--accent); background:rgba(92,122,82,0.04); }
+  .plan-card-badge { position:absolute; top:16px; right:16px; background:var(--moss); color:var(--cream); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:4px 10px; border-radius:2px; }
+  .plan-name { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--moss); margin-bottom:4px; }
+  .plan-setup { font-size:12px; color:#8a8a7a; margin-bottom:16px; }
+  .plan-price { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--moss); }
+  .plan-price span { font-size:16px; color:var(--sage); }
+  .plan-features { list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+  .plan-features li { font-size:13px; color:#5a5a4a; display:flex; gap:8px; }
+  .plan-features li::before { content:'—'; color:var(--sage); flex-shrink:0; }
+  .btn-checkout { width:100%; background:var(--moss); color:var(--cream); border:none; padding:18px; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; margin-top:24px; transition:background 0.2s; }
+  .btn-checkout:hover { background:var(--accent); }
+  .btn-checkout:disabled { opacity:0.5; cursor:not-allowed; }
+  .billing-info { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+  .billing-item label { display:block; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--sage); margin-bottom:8px; }
+  .billing-item p { font-size:15px; color:var(--charcoal); }
+  .btn-manage { background:var(--mist); border:1px solid rgba(61,74,53,0.15); color:var(--moss); padding:12px 24px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:all 0.2s; }
+  .btn-manage:hover { background:var(--moss); color:var(--cream); }
+  .loading { display:flex; align-items:center; justify-content:center; min-height:200px; color:var(--sage); font-size:14px; }
+  @media(max-width:900px){ .sidebar{display:none;} .main{margin-left:0; padding:32px 20px;} .cards-grid,.plan-cards,.billing-info{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <a href="index.html" class="sidebar-logo">Trap<span>Mosquito</span></a>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" onclick="showSection('overview',this)"><span class="nav-icon">◎</span> Overview</a>
+      <a class="nav-item" onclick="showSection('plan',this)"><span class="nav-icon">◇</span> My Plan</a>
+      <a class="nav-item" onclick="showSection('billing',this)"><span class="nav-icon">◈</span> Billing</a>
+      <a class="nav-item" onclick="showSection('service',this)"><span class="nav-icon">◷</span> Service History</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-name" id="sidebar-name">Loading...</div>
+      <div class="user-email" id="sidebar-email"></div>
+      <button class="btn-signout" onclick="signOut()">Sign Out</button>
+    </div>
+  </aside>
+  <main class="main">
+    <section class="page-section active" id="section-overview">
+      <div class="page-header"><h1>Good morning, <em id="first-name">there</em>.</h1><p>Here is everything about your TrapMosquito service.</p></div>
+      <div id="overview-content"><div class="loading">Loading your account...</div></div>
+    </section>
+    <section class="page-section" id="section-plan">
+      <div class="page-header"><h1>Choose Your <em>Plan</em></h1><p>Select the coverage that fits your property.</p></div>
+      <div class="section-block">
+        <h3>Select a Plan</h3>
+        <div class="plan-cards">
+          <div class="plan-card selected" onclick="selectPlan(this,'essential',129,'price_1TLueUFWLMLA8arha46YfCHp',299)">
+            <div class="plan-name">Essential</div><div class="plan-setup">$299 one-time setup</div>
+            <div class="plan-price">$129<span>/mo</span></div>
+            <ul class="plan-features"><li>1 TrapMosquito unit</li><li>Up to 5,000 sq ft</li><li>Monthly service</li></ul>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this,'premium',199,'price_1TLugDFWLMLA8arhfyqgAPp2',499)">
+            <div class="plan-card-badge">Popular</div>
+            <div class="plan-name">Premium</div><div class="plan-setup">$499 one-time setup</div>
+            <div class="plan-price">$199<span>/mo</span></div>
+            <ul class="plan-features"><li>2 TrapMosquito units</li><li>Up to 1 full acre</li><li>Priority scheduling</li></ul>
+          </div>
+        </div>
+        <button class="btn-checkout" id="checkout-btn" onclick="startCheckout()">Proceed to Checkout — $299 setup + $129/mo</button>
+        <p style="font-size:12px; color:#8a8a7a; margin-top:12px; text-align:center;">Secure payment via Stripe. Cancel anytime.</p>
+      </div>
+    </section>
+    <section class="page-section" id="section-billing">
+      <div class="page-header"><h1>Billing &amp; <em>Payments</em></h1><p>Manage your subscription and payment method.</p></div>
+      <div class="section-block">
+        <h3>Current Subscription</h3>
+        <div class="billing-info">
+          <div class="billing-item"><label>Plan</label><p id="billing-plan">Loading...</p></div>
+          <div class="billing-item"><label>Status</label><p id="billing-status">—</p></div>
+          <div class="billing-item"><label>Monthly Amount</label><p id="billing-amount">—</p></div>
+          <div class="billing-item"><label>Next Service Date</label><p id="billing-next">—</p></div>
+        </div>
+        <button class="btn-manage" onclick="openStripePortal()">Manage Payment Method &amp; Invoices</button>
+      </div>
+    </section>
+    <section class="page-section" id="section-service">
+      <div class="page-header"><h1>Service <em>History</em></h1><p>A full log of every visit and tank swap.</p></div>
+      <div class="section-block" id="service-content"><div class="loading">Loading service history...</div></div>
+    </section>
+  </main>
+</div>
+<script>
+  // ─── REPLACE THESE WITH YOUR ACTUAL VALUES ────────────────────────────────────
+  const SUPABASE_URL = 'https://gzynsejrcztdwvdvixkd.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eW5zZWpyY3p0ZHd2ZHZpeGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMjM5NTAsImV4cCI6MjA5MTY5OTk1MH0.CZFS0rGRSQhsXQwSXry1wW1NuqUfwcXeDzwU8sSwVI0';
+  const STRIPE_PORTAL_URL = 'https://billing.stripe.com/p/login/REPLACE_ME';
+  const SITE_URL = 'https://trapmosquito.com';
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let currentUser = null, customerData = null;
+  let selectedPlan = { name:'essential', price:129, priceId:'price_ESSENTIAL_ID_HERE', setup:299 };
+
+  window.addEventListener('load', async () => {
+    const { data:{ session } } = await supabase.auth.getSession();
+    if (!session) { window.location.href='login.html'; return; }
+    currentUser = session.user;
+    const meta = currentUser.user_metadata;
+    const firstName = (meta?.full_name||'there').split(' ')[0];
+    document.getElementById('first-name').textContent = firstName;
+    document.getElementById('sidebar-name').textContent = meta?.full_name||'Customer';
+    document.getElementById('sidebar-email').textContent = currentUser.email;
+    const { data } = await supabase.from('customers').select('*').eq('user_id',currentUser.id).single();
+    customerData = data;
+    renderOverview(data);
+    renderBilling(data);
+    renderServiceHistory(data);
+  });
+
+  function renderOverview(data) {
+    const el = document.getElementById('overview-content');
+    if (!data) { el.innerHTML='<div class="loading">No account found.</div>'; return; }
+    const active = data.subscription_status==='active';
+    const planLabel = data.plan ? data.plan.charAt(0).toUpperCase()+data.plan.slice(1) : 'None';
+    const nextSvc = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : 'Not scheduled';
+    el.innerHTML = `
+      <div class="status-banner ${active?'':'pending'}">
+        <div><div class="status-plan">Current Plan</div><h2>TrapMosquito ${planLabel}</h2><p>${active?'Your service is active and protecting your property.':'Complete checkout below to activate your service.'}</p></div>
+        <span class="status-badge ${active?'badge-active':'badge-pending'}">${active?'Active':'Pending'}</span>
+      </div>
+      <div class="cards-grid">
+        <div class="info-card"><div class="info-card-label">Next Service Visit</div><div class="info-card-value">${active?nextSvc.split(',')[0]:'—'}</div><div class="info-card-sub">${active?nextSvc:'Activate your plan to schedule'}</div></div>
+        <div class="info-card"><div class="info-card-label">Protection Status</div><div class="info-card-value">${active?'Active':'Inactive'}</div><div class="info-card-sub">${active?'Running 24/7':'Not yet activated'}</div></div>
+        <div class="info-card"><div class="info-card-label">Member Since</div><div class="info-card-value">${new Date(data.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'})}</div><div class="info-card-sub">Account in good standing</div></div>
+      </div>
+      ${!active?`<div class="section-block" style="background:rgba(92,122,82,0.06);border-color:rgba(92,122,82,0.2);"><h3 style="border-color:rgba(92,122,82,0.15);">Complete Your Setup</h3><p style="font-size:14px;color:#4a4a40;margin-bottom:20px;">Choose a plan and add your payment method to activate protection.</p><button class="btn-checkout" style="max-width:240px;" onclick="showSection('plan',null)">Choose a Plan →</button></div>`:''}`;
+  }
+
+  function renderBilling(data) {
+    if (!data) return;
+    const plans = { essential:'Essential — $129/mo', premium:'Premium — $199/mo', estate:'Estate (Custom)' };
+    const amounts = { essential:'$129.00/mo', premium:'$199.00/mo', estate:'Custom' };
+    document.getElementById('billing-plan').textContent = plans[data.plan]||'No plan selected';
+    document.getElementById('billing-status').textContent = data.subscription_status||'Pending';
+    document.getElementById('billing-amount').textContent = amounts[data.plan]||'—';
+    document.getElementById('billing-next').textContent = data.next_service_date ? new Date(data.next_service_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : 'Not scheduled';
+  }
+
+  function renderServiceHistory(data) {
+    const el = document.getElementById('service-content');
+    if (!data || data.subscription_status !== 'active') { el.innerHTML='<p style="font-size:14px;color:#8a8a7a;padding:8px 0;">No service history yet. Your history will appear here after your first visit.</p>'; return; }
+    const nextDate = data.next_service_date ? new Date(data.next_service_date) : null;
+    el.innerHTML = `<table style="width:100%;border-collapse:collapse;">
+      <thead><tr>
+        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px;border-bottom:1px solid rgba(61,74,53,0.1);">Date</th>
+        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Service Type</th>
+        <th style="text-align:left;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);padding:0 0 16px 20px;border-bottom:1px solid rgba(61,74,53,0.1);">Status</th>
+      </tr></thead>
+      <tbody>
+        ${nextDate ? `<tr><td style="padding:16px 0;font-size:13px;">${nextDate.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</td><td style="padding:16px 20px;font-size:13px;">Monthly CO₂ swap + cleaning</td><td style="padding:16px 20px;font-size:13px;"><span style="background:rgba(200,184,154,0.2);color:#a08050;padding:4px 10px;border-radius:2px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;">Upcoming</span></td></tr>` : ''}
+        <tr><td colspan="3" style="padding:24px 0;font-size:13px;color:#9a9a8a;">Previous visits will be logged here after each service.</td></tr>
+      </tbody>
+    </table>`;
+  }
+
+  function showSection(name, el) {
+    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('section-'+name).classList.add('active');
+    if (el) el.classList.add('active');
+  }
+
+  function selectPlan(el, name, price, priceId, setup) {
+    document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedPlan = { name, price, priceId, setup };
+    document.getElementById('checkout-btn').textContent = `Proceed to Checkout — $${setup} setup + $${price}/mo`;
+  }
+
+  async function startCheckout() {
+    const btn = document.getElementById('checkout-btn');
+    btn.disabled=true; btn.textContent='Redirecting to checkout...';
+    // After deploying api/create-checkout.js, uncomment below and remove the alert:
+    /*
+    const res = await fetch('/api/create-checkout', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ priceId:selectedPlan.priceId, userId:currentUser.id, userEmail:currentUser.email, planName:selectedPlan.name })
+    });
+    const { url } = await res.json();
+    window.location.href = url;
+    */
+    alert('To activate payments:\n1. Deploy api/create-checkout.js to Vercel\n2. Add STRIPE_SECRET_KEY to Vercel environment variables\n3. Replace price_ESSENTIAL_ID_HERE and price_PREMIUM_ID_HERE with your real Stripe price IDs\n4. Uncomment the fetch block in startCheckout()\n\nSee SETUP_GUIDE.md for full step-by-step instructions.');
+    btn.disabled=false; btn.textContent=`Proceed to Checkout — $${selectedPlan.setup} setup + $${selectedPlan.price}/mo`;
+  }
+
+  function openStripePortal() {
+    if (STRIPE_PORTAL_URL.includes('REPLACE_ME')) { alert('Set up your Stripe Customer Portal first.\nStripe Dashboard → Settings → Billing → Customer Portal → Activate\nThen copy the link into STRIPE_PORTAL_URL at the top of portal.html'); return; }
+    window.open(STRIPE_PORTAL_URL,'_blank');
+  }
+
+  async function signOut() { await supabase.auth.signOut(); window.location.href='login.html'; }
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success')==='true') setTimeout(()=>{ alert('Payment successful! Your service will be activated within 24 hours. We will reach out to schedule your installation.'); window.history.replaceState({},'',window.location.pathname); }, 800);
+</script>
+</body>
+</html>
