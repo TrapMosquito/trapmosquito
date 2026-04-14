@@ -11,15 +11,13 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--dark); font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; color:var(--cream); }
   .layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
-
-  /* SIDEBAR */
   .sidebar { background:#1a1c16; border-right:1px solid rgba(255,255,255,0.05); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; width:240px; }
   .sidebar-logo { padding:28px 24px; border-bottom:1px solid rgba(255,255,255,0.05); }
   .sidebar-logo a { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); text-decoration:none; display:block; }
   .sidebar-logo a span { font-style:italic; color:var(--sand); }
   .sidebar-logo p { font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-top:4px; }
   .sidebar-nav { flex:1; padding:20px 0; }
-  .nav-item { display:flex; align-items:center; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.45); font-size:13px; cursor:pointer; transition:all 0.2s; border-left:2px solid transparent; text-decoration:none; }
+  .nav-item { display:flex; align-items:center; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.45); font-size:13px; cursor:pointer; transition:all 0.2s; border-left:2px solid transparent; }
   .nav-item:hover { color:var(--cream); background:rgba(255,255,255,0.04); }
   .nav-item.active { color:var(--cream); border-left-color:var(--sand); background:rgba(255,255,255,0.06); }
   .nav-section-label { padding:16px 24px 8px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.2); }
@@ -27,36 +25,26 @@
   .admin-badge { display:inline-block; background:rgba(200,184,154,0.15); color:var(--sand); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:4px 10px; border-radius:2px; margin-bottom:12px; }
   .btn-signout { width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); padding:9px; font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:all 0.2s; }
   .btn-signout:hover { color:var(--cream); background:rgba(255,255,255,0.1); }
-
-  /* MAIN */
   .main { margin-left:240px; padding:40px 48px; }
   .page-section { display:none; }
   .page-section.active { display:block; }
-
-  /* TOP BAR */
   .topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:36px; }
   .topbar h1 { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--cream); }
   .topbar h1 em { font-style:italic; color:var(--sand); }
   .topbar p { font-size:13px; color:rgba(255,255,255,0.4); margin-top:4px; }
-  .topbar-actions { display:flex; gap:12px; align-items:center; }
   .search-input { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); padding:10px 16px; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:13px; border-radius:3px; outline:none; width:220px; transition:border-color 0.2s; }
   .search-input::placeholder { color:rgba(255,255,255,0.25); }
   .search-input:focus { border-color:var(--sage); }
-
-  /* STAT CARDS */
   .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
   .stat-card { background:#1a1c16; border:1px solid rgba(255,255,255,0.06); border-radius:4px; padding:24px 28px; }
+  .stat-card.highlight { background:var(--moss); }
   .stat-card-label { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:12px; }
   .stat-card-value { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:300; color:var(--cream); line-height:1; }
   .stat-card-sub { font-size:12px; color:rgba(255,255,255,0.3); margin-top:6px; }
-  .stat-card.highlight { background:var(--moss); border-color:rgba(245,240,232,0.1); }
-
-  /* TABLE */
   .table-card { background:#1a1c16; border:1px solid rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; }
   .table-header { padding:20px 28px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; }
   .table-header h3 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:var(--cream); }
-  .filter-tabs { display:flex; gap:2px; background:rgba(255,255,255,0.04); border-radius:3px; padding:3px; }
-  .filter-tab { padding:6px 14px; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); cursor:pointer; border-radius:2px; transition:all 0.2s; border:none; background:none; font-family:'DM Sans',sans-serif; }
+  .filter-tab { padding:6px 14px; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); cursor:pointer; border-radius:2px; transition:all 0.2s; border:none; background:none; font-family:'DM Sans',sans-serif; margin-right:4px; }
   .filter-tab.active { background:var(--moss); color:var(--cream); }
   .customers-table { width:100%; border-collapse:collapse; }
   .customers-table th { text-align:left; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.05); }
@@ -67,17 +55,14 @@
   .pill-active { background:rgba(92,122,82,0.25); color:#a0d080; }
   .pill-pending { background:rgba(200,184,154,0.15); color:var(--sand); }
   .pill-cancelled { background:rgba(180,60,60,0.15); color:#e09090; }
-  .plan-tag { font-size:11px; color:rgba(255,255,255,0.4); text-transform:capitalize; }
-
-  /* CUSTOMER DETAIL MODAL */
   .modal-overlay { position:fixed; inset:0; background:rgba(12,13,10,0.85); backdrop-filter:blur(4px); z-index:200; display:none; align-items:center; justify-content:center; }
   .modal-overlay.open { display:flex; }
-  .modal { background:#1e2019; border:1px solid rgba(255,255,255,0.08); border-radius:6px; width:100%; max-width:680px; max-height:85vh; overflow-y:auto; }
+  .modal { background:#1e2019; border:1px solid rgba(255,255,255,0.08); border-radius:6px; width:100%; max-width:640px; max-height:85vh; overflow-y:auto; }
   .modal-header { padding:28px 32px; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; justify-content:space-between; align-items:flex-start; position:sticky; top:0; background:#1e2019; z-index:1; }
-  .modal-header h2 { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--cream); }
+  .modal-header h2 { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--cream); }
   .modal-header p { font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px; }
   .modal-close { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
-  .modal-close:hover { color:var(--cream); background:rgba(255,255,255,0.1); }
+  .modal-close:hover { color:var(--cream); }
   .modal-body { padding:28px 32px; }
   .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:28px; }
   .detail-item label { display:block; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:6px; }
@@ -88,62 +73,59 @@
   .edit-field input, .edit-field select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); padding:11px 14px; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:13px; border-radius:3px; outline:none; transition:border-color 0.2s; }
   .edit-field input:focus, .edit-field select:focus { border-color:var(--sage); }
   .edit-field select option { background:#1e2019; }
-  .modal-actions { display:flex; gap:12px; margin-top:24px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); }
+  .modal-actions { display:flex; gap:12px; margin-top:24px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); align-items:center; }
   .btn-save { background:var(--moss); color:var(--cream); border:none; padding:12px 28px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; transition:background 0.2s; }
   .btn-save:hover { background:var(--accent); }
   .btn-save:disabled { opacity:0.5; cursor:not-allowed; }
   .btn-danger { background:rgba(180,60,60,0.15); border:1px solid rgba(180,60,60,0.25); color:#e09090; padding:12px 28px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; transition:all 0.2s; }
   .btn-danger:hover { background:rgba(180,60,60,0.25); }
-  .save-msg { font-size:12px; color:#a0d080; align-self:center; display:none; }
-
-  /* REVENUE SECTION */
-  .revenue-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
-  .revenue-card { background:#1a1c16; border:1px solid rgba(255,255,255,0.06); border-radius:4px; padding:28px; }
+  .save-msg { font-size:12px; color:#a0d080; display:none; }
+  .revenue-card { background:#1a1c16; border:1px solid rgba(255,255,255,0.06); border-radius:4px; padding:28px; margin-bottom:20px; }
   .revenue-card h3 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:var(--cream); margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06); }
   .revenue-line { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; color:rgba(255,255,255,0.6); }
   .revenue-line:last-child { border-bottom:none; }
-  .revenue-line span:last-child { color:var(--cream); font-weight:400; }
-  .revenue-total { display:flex; justify-content:space-between; align-items:center; padding:16px 0 0; font-size:15px; font-weight:400; color:var(--cream); margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); }
+  .revenue-line span:last-child { color:var(--cream); }
+  .revenue-total { display:flex; justify-content:space-between; align-items:center; padding:16px 0 0; font-size:15px; color:var(--cream); margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); }
   .revenue-total span:last-child { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--sand); }
-
-  /* UPCOMING SCHEDULE */
-  .schedule-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
-  .schedule-row:last-child { border-bottom:none; }
+  .schedule-row { display:flex; justify-content:space-between; align-items:center; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer; transition:background 0.15s; }
+  .schedule-row:hover { background:rgba(255,255,255,0.03); }
   .schedule-name { font-size:13px; color:var(--cream); font-weight:400; }
-  .schedule-addr { font-size:11px; color:rgba(255,255,255,0.35); margin-top:2px; }
+  .schedule-sub { font-size:11px; color:rgba(255,255,255,0.35); margin-top:2px; }
   .schedule-date { font-size:12px; color:var(--sand); text-align:right; }
-  .schedule-plan { font-size:10px; color:rgba(255,255,255,0.3); text-transform:capitalize; margin-top:2px; }
-
   .empty-state { text-align:center; padding:48px; color:rgba(255,255,255,0.3); font-size:14px; }
 
-  @media(max-width:1024px){ .stats-row{grid-template-columns:1fr 1fr;} }
-  @media(max-width:768px){ .layout{grid-template-columns:1fr;} .sidebar{display:none;} .main{margin-left:0;padding:24px 16px;} .stats-row{grid-template-columns:1fr 1fr;} .detail-grid,.revenue-grid{grid-template-columns:1fr;} }
+  /* AUTH GATE */
+  #auth-gate { position:fixed; inset:0; background:var(--dark); z-index:999; display:none; align-items:center; justify-content:center; flex-direction:column; gap:24px; }
+  #auth-gate.show { display:flex; }
+  .gate-title { font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--cream); }
+  .gate-title em { font-style:italic; color:var(--sand); }
+  .gate-box { background:#1a1c16; border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:40px; width:100%; max-width:380px; }
+  .gate-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .gate-field label { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+  .gate-field input { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); padding:12px 14px; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:13px; border-radius:3px; outline:none; }
+  .gate-btn { width:100%; background:var(--moss); color:var(--cream); border:none; padding:14px; font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; margin-top:8px; transition:background 0.2s; }
+  .gate-btn:hover { background:var(--accent); }
+  .gate-alert { display:none; padding:10px 14px; border-radius:3px; font-size:13px; margin-bottom:14px; background:rgba(180,60,60,0.15); border:1px solid rgba(180,60,60,0.3); color:#e8a0a0; }
+  .gate-note { font-size:11px; color:rgba(255,255,255,0.2); text-align:center; margin-top:20px; }
+  .gate-note a { color:var(--sage); text-decoration:none; }
+
+  @media(max-width:768px){ .layout{grid-template-columns:1fr;} .sidebar{display:none;} .main{margin-left:0;padding:24px 16px;} .stats-row{grid-template-columns:1fr 1fr;} .detail-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
-<!-- AUTH GATE — shown before login -->
-<div id="auth-gate" style="display:none; position:fixed; inset:0; background:var(--dark); z-index:999; align-items:center; justify-content:center; flex-direction:column; gap:24px;">
-  <div style="font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--cream);">Trap<em style="font-style:italic;color:var(--sand);">Mosquito</em> Admin</div>
-  <div style="background:#1a1c16; border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:40px; width:100%; max-width:380px;">
-    <div id="gate-alert" style="display:none; padding:10px 14px; border-radius:3px; font-size:13px; margin-bottom:16px; background:rgba(180,60,60,0.15); border:1px solid rgba(180,60,60,0.3); color:#e8a0a0;"></div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <label style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Email</label>
-        <input type="email" id="admin-email" placeholder="admin@trapmosquito.com" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:12px 14px;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;border-radius:3px;outline:none;" />
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <label style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Password</label>
-        <input type="password" id="admin-password" placeholder="••••••••" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:12px 14px;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;border-radius:3px;outline:none;" onkeydown="if(event.key==='Enter')adminLogin()" />
-      </div>
-      <button onclick="adminLogin()" style="background:var(--moss);color:var(--cream);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:4px;transition:background 0.2s;" onmouseover="this.style.background='#5c7a52'" onmouseout="this.style.background='#3d4a35'">Sign In to Admin</button>
-    </div>
-    <p style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;margin-top:20px;">Admin access only. Customers use <a href="portal.html" style="color:var(--sage);">portal.html</a></p>
+<div id="auth-gate">
+  <div class="gate-title">Trap<em>Mosquito</em> Admin</div>
+  <div class="gate-box">
+    <div class="gate-alert" id="gate-alert"></div>
+    <div class="gate-field"><label>Email</label><input type="email" id="admin-email-input" placeholder="your@email.com" /></div>
+    <div class="gate-field"><label>Password</label><input type="password" id="admin-pass-input" placeholder="••••••••" /></div>
+    <button class="gate-btn" id="gate-login-btn">Sign In to Admin</button>
+    <p class="gate-note">Admin access only. Customers use <a href="portal.html">portal.html</a></p>
   </div>
 </div>
 
 <div class="layout" id="main-layout" style="display:none;">
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">Trap<span>Mosquito</span></a>
@@ -151,137 +133,97 @@
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Overview</div>
-      <a class="nav-item active" onclick="showSection('dashboard',this)">◎ &nbsp; Dashboard</a>
-      <a class="nav-item" onclick="showSection('customers',this)">◻ &nbsp; All Customers</a>
+      <div class="nav-item active" id="nav-dashboard">◎ &nbsp; Dashboard</div>
+      <div class="nav-item" id="nav-customers">◻ &nbsp; All Customers</div>
       <div class="nav-section-label">Operations</div>
-      <a class="nav-item" onclick="showSection('schedule',this)">◷ &nbsp; Service Schedule</a>
-      <a class="nav-item" onclick="showSection('revenue',this)">◈ &nbsp; Revenue</a>
+      <div class="nav-item" id="nav-schedule">◷ &nbsp; Service Schedule</div>
+      <div class="nav-item" id="nav-revenue">◈ &nbsp; Revenue</div>
     </nav>
     <div class="sidebar-bottom">
       <div class="admin-badge">Admin</div>
-      <div style="font-size:13px;color:var(--cream);margin-bottom:4px;" id="admin-name">Admin</div>
+      <div style="font-size:13px;color:var(--cream);margin-bottom:4px;" id="admin-name-display">Admin</div>
       <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:14px;" id="admin-email-display"></div>
-      <button class="btn-signout" onclick="adminSignOut()">Sign Out</button>
+      <button class="btn-signout" id="admin-signout-btn">Sign Out</button>
     </div>
   </aside>
-
-  <!-- MAIN -->
   <main class="main">
 
     <!-- DASHBOARD -->
     <section class="page-section active" id="section-dashboard">
-      <div class="topbar">
-        <div><h1>Good morning, <em>Eitan.</em></h1><p id="dashboard-date">Loading...</p></div>
-      </div>
-      <div class="stats-row" id="stats-row">
+      <div class="topbar"><div><h1>Good morning, <em>Eitan.</em></h1><p id="dashboard-date"></p></div></div>
+      <div class="stats-row">
         <div class="stat-card highlight"><div class="stat-card-label">Active Subscribers</div><div class="stat-card-value" id="stat-active">—</div><div class="stat-card-sub">Paying customers</div></div>
         <div class="stat-card"><div class="stat-card-label">Monthly Revenue</div><div class="stat-card-value" id="stat-mrr">—</div><div class="stat-card-sub">Recurring</div></div>
         <div class="stat-card"><div class="stat-card-label">Pending Setup</div><div class="stat-card-value" id="stat-pending">—</div><div class="stat-card-sub">Awaiting payment</div></div>
         <div class="stat-card"><div class="stat-card-label">Total Customers</div><div class="stat-card-value" id="stat-total">—</div><div class="stat-card-sub">All accounts</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div class="table-card">
-          <div class="table-header"><h3>Recent Signups</h3></div>
-          <div id="recent-signups"><div class="empty-state">Loading...</div></div>
-        </div>
-        <div class="table-card">
-          <div class="table-header"><h3>Upcoming Service</h3></div>
-          <div id="upcoming-service" style="padding:0 28px;"><div class="empty-state">Loading...</div></div>
-        </div>
+        <div class="table-card"><div class="table-header"><h3>Recent Signups</h3></div><div id="recent-signups"><div class="empty-state">Loading...</div></div></div>
+        <div class="table-card"><div class="table-header"><h3>Upcoming Service</h3></div><div id="upcoming-service"><div class="empty-state">Loading...</div></div></div>
       </div>
     </section>
 
-    <!-- ALL CUSTOMERS -->
+    <!-- CUSTOMERS -->
     <section class="page-section" id="section-customers">
       <div class="topbar">
-        <div><h1>All <em>Customers</em></h1><p>Click any row to view details and edit.</p></div>
-        <div class="topbar-actions">
-          <input class="search-input" type="text" placeholder="Search by name or email..." oninput="filterCustomers(this.value)" />
-        </div>
+        <div><h1>All <em>Customers</em></h1><p>Click any row to view and edit.</p></div>
+        <input class="search-input" type="text" placeholder="Search by name or phone..." id="search-input" />
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:20px;">
-        <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
-        <button class="filter-tab" onclick="setFilter('active',this)">Active</button>
-        <button class="filter-tab" onclick="setFilter('pending',this)">Pending</button>
-        <button class="filter-tab" onclick="setFilter('cancelled',this)">Cancelled</button>
+      <div style="margin-bottom:16px;">
+        <button class="filter-tab active" id="filter-all">All</button>
+        <button class="filter-tab" id="filter-active">Active</button>
+        <button class="filter-tab" id="filter-pending">Pending</button>
+        <button class="filter-tab" id="filter-cancelled">Cancelled</button>
       </div>
       <div class="table-card">
         <table class="customers-table">
-          <thead><tr>
-            <th>Customer</th><th>Plan</th><th>Status</th><th>Next Service</th><th>Joined</th>
-          </tr></thead>
-          <tbody id="customers-tbody"><tr><td colspan="5" class="empty-state">Loading customers...</td></tr></tbody>
+          <thead><tr><th>Customer</th><th>Plan</th><th>Status</th><th>Next Service</th><th>Joined</th></tr></thead>
+          <tbody id="customers-tbody"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody>
         </table>
       </div>
     </section>
 
     <!-- SCHEDULE -->
     <section class="page-section" id="section-schedule">
-      <div class="topbar"><div><h1>Service <em>Schedule</em></h1><p>All upcoming and recent service visits.</p></div></div>
+      <div class="topbar"><div><h1>Service <em>Schedule</em></h1><p>All upcoming visits.</p></div></div>
       <div class="table-card">
-        <div class="table-header"><h3>Next 30 Days</h3></div>
+        <div class="table-header"><h3>Upcoming Visits</h3></div>
         <table class="customers-table">
           <thead><tr><th>Customer</th><th>Plan</th><th>Service Date</th><th>Address</th><th>Status</th></tr></thead>
-          <tbody id="schedule-tbody"><tr><td colspan="5" class="empty-state">Loading schedule...</td></tr></tbody>
+          <tbody id="schedule-tbody"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody>
         </table>
       </div>
     </section>
 
     <!-- REVENUE -->
     <section class="page-section" id="section-revenue">
-      <div class="topbar"><div><h1>Revenue <em>Overview</em></h1><p>Subscription metrics and monthly recurring revenue.</p></div></div>
-      <div class="revenue-grid">
-        <div class="revenue-card">
-          <h3>Monthly Recurring Revenue</h3>
-          <div id="revenue-breakdown">Loading...</div>
-        </div>
-        <div class="revenue-card">
-          <h3>Plan Distribution</h3>
-          <div id="plan-distribution">Loading...</div>
-        </div>
+      <div class="topbar"><div><h1>Revenue <em>Overview</em></h1><p>Subscription metrics and MRR.</p></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="revenue-card"><h3>Monthly Recurring Revenue</h3><div id="revenue-breakdown">Loading...</div></div>
+        <div class="revenue-card"><h3>Plan Distribution</h3><div id="plan-distribution">Loading...</div></div>
       </div>
     </section>
 
   </main>
 </div>
 
-<!-- CUSTOMER DETAIL MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal" id="modal">
+<!-- CUSTOMER MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
     <div class="modal-header">
-      <div><h2 id="modal-name">Customer Name</h2><p id="modal-email-display">email</p></div>
-      <button class="modal-close" onclick="closeModal()">×</button>
+      <div><h2 id="modal-name">Customer</h2><p id="modal-sub">details</p></div>
+      <button class="modal-close" id="modal-close-btn">×</button>
     </div>
     <div class="modal-body">
-      <div class="detail-grid" id="modal-detail-grid"></div>
-      <div class="modal-section-title">Edit Customer Record</div>
-      <div class="edit-field">
-        <label>Plan</label>
-        <select id="edit-plan">
-          <option value="essential">Essential — $129/mo</option>
-          <option value="premium">Premium — $199/mo</option>
-          <option value="estate">Estate — Custom</option>
-        </select>
-      </div>
-      <div class="edit-field">
-        <label>Subscription Status</label>
-        <select id="edit-status">
-          <option value="pending">Pending</option>
-          <option value="active">Active</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-      </div>
-      <div class="edit-field">
-        <label>Next Service Date</label>
-        <input type="date" id="edit-service-date" />
-      </div>
-      <div class="edit-field">
-        <label>Address / Property Notes</label>
-        <input type="text" id="edit-address" placeholder="Address or notes about the property" />
-      </div>
+      <div class="detail-grid" id="modal-details"></div>
+      <div class="modal-section-title">Edit Record</div>
+      <div class="edit-field"><label>Plan</label><select id="edit-plan"><option value="essential">Essential — $129/mo</option><option value="premium">Premium — $199/mo</option><option value="estate">Estate — Custom</option></select></div>
+      <div class="edit-field"><label>Status</label><select id="edit-status"><option value="pending">Pending</option><option value="active">Active</option><option value="cancelled">Cancelled</option></select></div>
+      <div class="edit-field"><label>Next Service Date</label><input type="date" id="edit-date" /></div>
+      <div class="edit-field"><label>Address / Property Notes</label><input type="text" id="edit-address" placeholder="Address or notes" /></div>
       <div class="modal-actions">
-        <button class="btn-save" id="save-btn" onclick="saveCustomer()">Save Changes</button>
-        <button class="btn-danger" onclick="confirmCancel()">Cancel Subscription</button>
+        <button class="btn-save" id="save-btn">Save Changes</button>
+        <button class="btn-danger" id="cancel-sub-btn">Cancel Subscription</button>
         <span class="save-msg" id="save-msg">Saved!</span>
       </div>
     </div>
@@ -289,254 +231,231 @@
 </div>
 
 <script>
-  // ─── REPLACE THESE WITH YOUR ACTUAL VALUES ────────────────────────────────────
-  const SUPABASE_URL = 'https://gzynsejrcztdwvdvixkd.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eW5zZWpyY3p0ZHd2ZHZpeGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMjM5NTAsImV4cCI6MjA5MTY5OTk1MH0.CZFS0rGRSQhsXQwSXry1wW1NuqUfwcXeDzwU8sSwVI0';
+  var SUPABASE_URL = 'https://gzynsejrcztdwvdvixkd.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eW5zZWpyY3p0ZHd2ZHZpeGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMjM5NTAsImV4cCI6MjA5MTY5OTk1MH0.CZFS0rGRSQhsXQwSXry1wW1NuqUfwcXeDzwU8sSwVI0';
 
-  // IMPORTANT: Admin email — only this email address gets access to this page.
-  // Set this to the email you use to log in as admin.
-  // Then in Supabase Dashboard → Authentication → Users → find your admin user
-  // → click it → add custom claim: { "role": "admin" }
-  // OR simply use a separate admin email and rely on the email check below.
-  const ADMIN_EMAIL = 'trapmosquitoco@gmail.com'; // ← change this to your email
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Set this to the email you will use to log into admin
+  var ADMIN_EMAIL = 'trapmosquitoco@gmail.com';
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  let allCustomers = [];
-  let activeFilter = 'all';
-  let editingCustomerId = null;
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var allCustomers = [];
+  var activeFilter = 'all';
+  var editingId = null;
 
-  // ── AUTH ──────────────────────────────────────────────────────────────────────
-  window.addEventListener('load', async () => {
-    const { data:{ session } } = await supabase.auth.getSession();
-    if (session && session.user.email === ADMIN_EMAIL) {
-      showDashboard(session.user);
+  // ── AUTH ──
+  window.addEventListener('load', async function(){
+    var result = await sb.auth.getSession();
+    if (result.data.session && result.data.session.user.email === ADMIN_EMAIL) {
+      bootDashboard(result.data.session.user);
     } else {
-      document.getElementById('auth-gate').style.display = 'flex';
+      document.getElementById('auth-gate').classList.add('show');
     }
+    document.getElementById('dashboard-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   });
 
-  async function adminLogin() {
-    const email = document.getElementById('admin-email').value.trim();
-    const password = document.getElementById('admin-password').value;
-    if (!email || !password) { showGateAlert('Enter your email and password.'); return; }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) { showGateAlert(error.message); return; }
-    if (data.user.email !== ADMIN_EMAIL) {
-      await supabase.auth.signOut();
-      showGateAlert('You do not have admin access.');
-      return;
-    }
-    showDashboard(data.user);
-  }
+  document.getElementById('gate-login-btn').addEventListener('click', async function(){
+    var email = document.getElementById('admin-email-input').value.trim();
+    var pass = document.getElementById('admin-pass-input').value;
+    if (!email || !pass) { showGateAlert('Enter your email and password.'); return; }
+    var result = await sb.auth.signInWithPassword({ email: email, password: pass });
+    if (result.error) { showGateAlert(result.error.message); return; }
+    if (result.data.user.email !== ADMIN_EMAIL) { await sb.auth.signOut(); showGateAlert('You do not have admin access.'); return; }
+    bootDashboard(result.data.user);
+  });
+  document.getElementById('admin-pass-input').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('gate-login-btn').click(); });
 
-  function showGateAlert(msg) {
-    const el = document.getElementById('gate-alert');
-    el.textContent = msg; el.style.display = 'block';
-  }
+  function showGateAlert(msg){ var el=document.getElementById('gate-alert'); el.textContent=msg; el.style.display='block'; }
 
-  function showDashboard(user) {
-    document.getElementById('auth-gate').style.display = 'none';
+  function bootDashboard(user){
+    document.getElementById('auth-gate').classList.remove('show');
     document.getElementById('main-layout').style.display = 'grid';
-    document.getElementById('admin-name').textContent = user.user_metadata?.full_name || 'Admin';
+    document.getElementById('admin-name-display').textContent = user.user_metadata?.full_name || 'Admin';
     document.getElementById('admin-email-display').textContent = user.email;
-    document.getElementById('dashboard-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-    loadAllData();
+    loadData();
   }
 
-  async function adminSignOut() { await supabase.auth.signOut(); window.location.reload(); }
+  document.getElementById('admin-signout-btn').addEventListener('click', async function(){ await sb.auth.signOut(); window.location.reload(); });
 
-  // ── DATA ──────────────────────────────────────────────────────────────────────
-  async function loadAllData() {
-    const { data, error } = await supabase.from('customers').select('*').order('created_at', { ascending: false });
-    if (error) { console.error(error); return; }
-    allCustomers = data || [];
+  // ── DATA ──
+  async function loadData(){
+    var result = await sb.from('customers').select('*').order('created_at', { ascending: false });
+    if (result.error) { console.error(result.error); return; }
+    allCustomers = result.data || [];
     renderStats();
     renderRecentSignups();
-    renderUpcomingService();
+    renderUpcoming();
     renderCustomersTable(allCustomers);
     renderSchedule();
     renderRevenue();
   }
 
-  function renderStats() {
-    const active = allCustomers.filter(c=>c.subscription_status==='active');
-    const pending = allCustomers.filter(c=>c.subscription_status==='pending');
-    const mrr = active.reduce((sum,c) => {
-      if (c.plan==='essential') return sum+129;
-      if (c.plan==='premium') return sum+199;
-      return sum;
-    }, 0);
+  function renderStats(){
+    var active = allCustomers.filter(function(c){ return c.subscription_status==='active'; });
+    var pending = allCustomers.filter(function(c){ return c.subscription_status==='pending'; });
+    var mrr = active.reduce(function(sum,c){ return sum + (c.plan==='essential'?129:c.plan==='premium'?199:0); }, 0);
     document.getElementById('stat-active').textContent = active.length;
     document.getElementById('stat-mrr').textContent = '$'+mrr.toLocaleString();
     document.getElementById('stat-pending').textContent = pending.length;
     document.getElementById('stat-total').textContent = allCustomers.length;
   }
 
-  function renderRecentSignups() {
-    const el = document.getElementById('recent-signups');
-    const recent = allCustomers.slice(0,6);
-    if (!recent.length) { el.innerHTML='<div class="empty-state">No customers yet.</div>'; return; }
-    el.innerHTML = recent.map(c => `
-      <div class="schedule-row" style="padding:14px 28px;" onclick="openModal(${JSON.stringify(c).replace(/"/g,'&quot;')})" style="cursor:pointer;">
-        <div>
-          <div class="schedule-name">${c.full_name||'Unnamed'}</div>
-          <div class="schedule-addr">${c.plan||'No plan'} · joined ${new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
-        </div>
-        <span class="status-pill ${c.subscription_status==='active'?'pill-active':c.subscription_status==='cancelled'?'pill-cancelled':'pill-pending'}">${c.subscription_status||'pending'}</span>
-      </div>`).join('');
+  function renderRecentSignups(){
+    var el = document.getElementById('recent-signups');
+    if (!allCustomers.length) { el.innerHTML='<div class="empty-state">No customers yet.</div>'; return; }
+    el.innerHTML = allCustomers.slice(0,6).map(function(c){
+      return '<div class="schedule-row" data-id="'+c.id+'">' +
+        '<div><div class="schedule-name">'+(c.full_name||'Unnamed')+'</div><div class="schedule-sub">'+(c.plan||'no plan')+' · '+new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})+'</div></div>' +
+        '<span class="status-pill '+(c.subscription_status==='active'?'pill-active':c.subscription_status==='cancelled'?'pill-cancelled':'pill-pending')+'">'+(c.subscription_status||'pending')+'</span>' +
+      '</div>';
+    }).join('');
+    el.querySelectorAll('.schedule-row').forEach(function(row){ row.addEventListener('click', function(){ openModal(allCustomers.find(function(c){ return c.id===row.dataset.id; })); }); });
   }
 
-  function renderUpcomingService() {
-    const el = document.getElementById('upcoming-service');
-    const upcoming = allCustomers
-      .filter(c=>c.subscription_status==='active'&&c.next_service_date)
-      .sort((a,b)=>new Date(a.next_service_date)-new Date(b.next_service_date))
-      .slice(0,6);
+  function renderUpcoming(){
+    var el = document.getElementById('upcoming-service');
+    var upcoming = allCustomers.filter(function(c){ return c.subscription_status==='active' && c.next_service_date; }).sort(function(a,b){ return new Date(a.next_service_date)-new Date(b.next_service_date); }).slice(0,6);
     if (!upcoming.length) { el.innerHTML='<div class="empty-state">No upcoming service.</div>'; return; }
-    el.innerHTML = upcoming.map(c=>`
-      <div class="schedule-row">
-        <div><div class="schedule-name">${c.full_name||'Unnamed'}</div><div class="schedule-plan">${c.plan} plan</div></div>
-        <div class="schedule-date">${new Date(c.next_service_date).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
-      </div>`).join('');
+    el.innerHTML = upcoming.map(function(c){
+      return '<div class="schedule-row" data-id="'+c.id+'">' +
+        '<div><div class="schedule-name">'+(c.full_name||'Unnamed')+'</div><div class="schedule-sub">'+(c.plan||'')+'</div></div>' +
+        '<div class="schedule-date">'+new Date(c.next_service_date).toLocaleDateString('en-US',{month:'short',day:'numeric'})+'</div>' +
+      '</div>';
+    }).join('');
+    el.querySelectorAll('.schedule-row').forEach(function(row){ row.addEventListener('click', function(){ openModal(allCustomers.find(function(c){ return c.id===row.dataset.id; })); }); });
   }
 
-  function renderCustomersTable(customers) {
-    const tbody = document.getElementById('customers-tbody');
-    if (!customers.length) { tbody.innerHTML='<tr><td colspan="5" class="empty-state">No customers found.</td></tr>'; return; }
-    tbody.innerHTML = customers.map(c=>`
-      <tr onclick="openModal(${JSON.stringify(c).replace(/"/g,'&quot;')})">
-        <td><div style="font-weight:400;color:var(--cream);">${c.full_name||'Unnamed'}</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">${c.phone||'No phone'}</div></td>
-        <td><span class="plan-tag">${c.plan||'—'}</span></td>
-        <td><span class="status-pill ${c.subscription_status==='active'?'pill-active':c.subscription_status==='cancelled'?'pill-cancelled':'pill-pending'}">${c.subscription_status||'pending'}</span></td>
-        <td style="color:rgba(255,255,255,0.5);">${c.next_service_date?new Date(c.next_service_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</td>
-        <td style="color:rgba(255,255,255,0.4);">${new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</td>
-      </tr>`).join('');
+  function renderCustomersTable(list){
+    var tbody = document.getElementById('customers-tbody');
+    if (!list.length) { tbody.innerHTML='<tr><td colspan="5" class="empty-state">No customers found.</td></tr>'; return; }
+    tbody.innerHTML = list.map(function(c){
+      return '<tr data-id="'+c.id+'">' +
+        '<td><div style="font-weight:400;color:var(--cream);">'+(c.full_name||'Unnamed')+'</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">'+(c.phone||'No phone')+'</div></td>' +
+        '<td style="text-transform:capitalize;color:rgba(255,255,255,0.5);">'+(c.plan||'—')+'</td>' +
+        '<td><span class="status-pill '+(c.subscription_status==='active'?'pill-active':c.subscription_status==='cancelled'?'pill-cancelled':'pill-pending')+'">'+(c.subscription_status||'pending')+'</span></td>' +
+        '<td style="color:rgba(255,255,255,0.5);">'+(c.next_service_date?new Date(c.next_service_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—')+'</td>' +
+        '<td style="color:rgba(255,255,255,0.4);">'+new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</td>' +
+      '</tr>';
+    }).join('');
+    tbody.querySelectorAll('tr').forEach(function(row){ row.addEventListener('click', function(){ openModal(allCustomers.find(function(c){ return c.id===row.dataset.id; })); }); });
   }
 
-  function renderSchedule() {
-    const tbody = document.getElementById('schedule-tbody');
-    const scheduled = allCustomers.filter(c=>c.next_service_date).sort((a,b)=>new Date(a.next_service_date)-new Date(b.next_service_date));
-    if (!scheduled.length) { tbody.innerHTML='<tr><td colspan="5" class="empty-state">No scheduled services.</td></tr>'; return; }
-    tbody.innerHTML = scheduled.map(c=>`
-      <tr onclick="openModal(${JSON.stringify(c).replace(/"/g,'&quot;')})">
-        <td><div style="font-weight:400;color:var(--cream);">${c.full_name||'Unnamed'}</div></td>
-        <td><span class="plan-tag">${c.plan||'—'}</span></td>
-        <td style="color:var(--sand);">${new Date(c.next_service_date).toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric'})}</td>
-        <td style="color:rgba(255,255,255,0.4);">${c.address||'No address on file'}</td>
-        <td><span class="status-pill ${c.subscription_status==='active'?'pill-active':'pill-pending'}">${c.subscription_status}</span></td>
-      </tr>`).join('');
+  function renderSchedule(){
+    var tbody = document.getElementById('schedule-tbody');
+    var list = allCustomers.filter(function(c){ return c.next_service_date; }).sort(function(a,b){ return new Date(a.next_service_date)-new Date(b.next_service_date); });
+    if (!list.length) { tbody.innerHTML='<tr><td colspan="5" class="empty-state">No scheduled services.</td></tr>'; return; }
+    tbody.innerHTML = list.map(function(c){
+      return '<tr data-id="'+c.id+'">' +
+        '<td style="font-weight:400;color:var(--cream);">'+(c.full_name||'Unnamed')+'</td>' +
+        '<td style="text-transform:capitalize;color:rgba(255,255,255,0.5);">'+(c.plan||'—')+'</td>' +
+        '<td style="color:var(--sand);">'+new Date(c.next_service_date).toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric'})+'</td>' +
+        '<td style="color:rgba(255,255,255,0.4);">'+(c.address||'No address')+'</td>' +
+        '<td><span class="status-pill '+(c.subscription_status==='active'?'pill-active':'pill-pending')+'">'+(c.subscription_status||'pending')+'</span></td>' +
+      '</tr>';
+    }).join('');
+    tbody.querySelectorAll('tr').forEach(function(row){ row.addEventListener('click', function(){ openModal(allCustomers.find(function(c){ return c.id===row.dataset.id; })); }); });
   }
 
-  function renderRevenue() {
-    const active = allCustomers.filter(c=>c.subscription_status==='active');
-    const essential = active.filter(c=>c.plan==='essential').length;
-    const premium = active.filter(c=>c.plan==='premium').length;
-    const estate = active.filter(c=>c.plan==='estate').length;
-    const mrr = essential*129 + premium*199;
-
-    document.getElementById('revenue-breakdown').innerHTML = `
-      <div class="revenue-line"><span>Essential (${essential} × $129)</span><span>$${(essential*129).toLocaleString()}</span></div>
-      <div class="revenue-line"><span>Premium (${premium} × $199)</span><span>$${(premium*199).toLocaleString()}</span></div>
-      ${estate?`<div class="revenue-line"><span>Estate (${estate} custom)</span><span>—</span></div>`:''}
-      <div class="revenue-total"><span>Total MRR</span><span>$${mrr.toLocaleString()}</span></div>
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);">
-        <div class="revenue-line"><span>Est. Annual Revenue</span><span style="color:var(--sand);">$${(mrr*12).toLocaleString()}</span></div>
-      </div>`;
-
-    const total = active.length || 1;
-    document.getElementById('plan-distribution').innerHTML = `
-      <div class="revenue-line"><span>Essential</span><span>${essential} customers (${Math.round(essential/total*100)}%)</span></div>
-      <div class="revenue-line"><span>Premium</span><span>${premium} customers (${Math.round(premium/total*100)}%)</span></div>
-      ${estate?`<div class="revenue-line"><span>Estate</span><span>${estate} customers</span></div>`:''}
-      <div style="margin-top:20px;">
-        <div style="background:rgba(255,255,255,0.06);border-radius:3px;height:8px;overflow:hidden;">
-          <div style="background:var(--moss);height:100%;width:${Math.round(essential/total*100)}%;display:inline-block;"></div>
-          <div style="background:var(--sand);height:100%;width:${Math.round(premium/total*100)}%;display:inline-block;"></div>
-        </div>
-        <div style="display:flex;gap:16px;margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35);">
-          <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;background:var(--moss);border-radius:50%;display:inline-block;"></span>Essential</span>
-          <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;background:var(--sand);border-radius:50%;display:inline-block;"></span>Premium</span>
-        </div>
-      </div>`;
+  function renderRevenue(){
+    var active = allCustomers.filter(function(c){ return c.subscription_status==='active'; });
+    var essential = active.filter(function(c){ return c.plan==='essential'; }).length;
+    var premium = active.filter(function(c){ return c.plan==='premium'; }).length;
+    var mrr = essential*129 + premium*199;
+    document.getElementById('revenue-breakdown').innerHTML =
+      '<div class="revenue-line"><span>Essential ('+essential+' × $129)</span><span>$'+(essential*129).toLocaleString()+'</span></div>' +
+      '<div class="revenue-line"><span>Premium ('+premium+' × $199)</span><span>$'+(premium*199).toLocaleString()+'</span></div>' +
+      '<div class="revenue-total"><span>Total MRR</span><span>$'+mrr.toLocaleString()+'</span></div>' +
+      '<div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);"><div class="revenue-line"><span>Est. Annual Revenue</span><span style="color:var(--sand);">$'+(mrr*12).toLocaleString()+'</span></div></div>';
+    var total = active.length || 1;
+    document.getElementById('plan-distribution').innerHTML =
+      '<div class="revenue-line"><span>Essential</span><span>'+essential+' customers ('+Math.round(essential/total*100)+'%)</span></div>' +
+      '<div class="revenue-line"><span>Premium</span><span>'+premium+' customers ('+Math.round(premium/total*100)+'%)</span></div>' +
+      '<div style="margin-top:20px;background:rgba(255,255,255,0.06);border-radius:3px;height:8px;overflow:hidden;">' +
+        '<div style="background:var(--moss);height:100%;width:'+Math.round(essential/total*100)+'%;display:inline-block;"></div>' +
+        '<div style="background:var(--sand);height:100%;width:'+Math.round(premium/total*100)+'%;display:inline-block;"></div>' +
+      '</div>';
   }
 
-  // ── FILTERING ─────────────────────────────────────────────────────────────────
-  function filterCustomers(query) {
-    const q = query.toLowerCase();
-    let filtered = allCustomers.filter(c=>
-      (c.full_name||'').toLowerCase().includes(q) || (c.phone||'').toLowerCase().includes(q)
-    );
-    if (activeFilter !== 'all') filtered = filtered.filter(c=>c.subscription_status===activeFilter);
-    renderCustomersTable(filtered);
+  // ── FILTERING ──
+  document.getElementById('search-input').addEventListener('input', function(){ applyFilter(); });
+  ['all','active','pending','cancelled'].forEach(function(f){
+    document.getElementById('filter-'+f).addEventListener('click', function(){
+      activeFilter = f;
+      document.querySelectorAll('.filter-tab').forEach(function(t){ t.classList.remove('active'); });
+      this.classList.add('active');
+      applyFilter();
+    });
+  });
+  function applyFilter(){
+    var q = document.getElementById('search-input').value.toLowerCase();
+    var list = allCustomers.filter(function(c){
+      var matchQ = !q || (c.full_name||'').toLowerCase().includes(q) || (c.phone||'').toLowerCase().includes(q);
+      var matchF = activeFilter==='all' || c.subscription_status===activeFilter;
+      return matchQ && matchF;
+    });
+    renderCustomersTable(list);
   }
 
-  function setFilter(filter, el) {
-    activeFilter = filter;
-    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
-    el.classList.add('active');
-    filterCustomers(document.querySelector('.search-input').value);
-  }
-
-  // ── MODAL ─────────────────────────────────────────────────────────────────────
-  function openModal(customer) {
-    editingCustomerId = customer.id;
-    document.getElementById('modal-name').textContent = customer.full_name || 'Unnamed Customer';
-    document.getElementById('modal-email-display').textContent = customer.phone || 'No phone on file';
-    document.getElementById('modal-detail-grid').innerHTML = `
-      <div class="detail-item"><label>Phone</label><p>${customer.phone||'—'}</p></div>
-      <div class="detail-item"><label>Plan</label><p style="text-transform:capitalize;">${customer.plan||'—'}</p></div>
-      <div class="detail-item"><label>Stripe Customer ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">${customer.stripe_customer_id||'Not linked yet'}</p></div>
-      <div class="detail-item"><label>Stripe Sub ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">${customer.stripe_subscription_id||'Not linked yet'}</p></div>
-      <div class="detail-item"><label>Member Since</label><p>${new Date(customer.created_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</p></div>
-      <div class="detail-item"><label>Supabase User ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">${customer.user_id}</p></div>`;
-    document.getElementById('edit-plan').value = customer.plan || 'essential';
-    document.getElementById('edit-status').value = customer.subscription_status || 'pending';
-    document.getElementById('edit-service-date').value = customer.next_service_date || '';
-    document.getElementById('edit-address').value = customer.address || '';
+  // ── MODAL ──
+  function openModal(c){
+    if (!c) return;
+    editingId = c.id;
+    document.getElementById('modal-name').textContent = c.full_name || 'Unnamed Customer';
+    document.getElementById('modal-sub').textContent = (c.phone||'No phone') + ' · joined ' + new Date(c.created_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    document.getElementById('modal-details').innerHTML =
+      '<div class="detail-item"><label>Phone</label><p>'+(c.phone||'—')+'</p></div>' +
+      '<div class="detail-item"><label>Plan</label><p style="text-transform:capitalize;">'+(c.plan||'—')+'</p></div>' +
+      '<div class="detail-item"><label>Stripe Customer ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">'+(c.stripe_customer_id||'Not linked')+'</p></div>' +
+      '<div class="detail-item"><label>Subscription ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">'+(c.stripe_subscription_id||'Not linked')+'</p></div>' +
+      '<div class="detail-item"><label>Member Since</label><p>'+new Date(c.created_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+'</p></div>' +
+      '<div class="detail-item"><label>User ID</label><p style="font-size:11px;color:rgba(255,255,255,0.4);">'+c.user_id+'</p></div>';
+    document.getElementById('edit-plan').value = c.plan || 'essential';
+    document.getElementById('edit-status').value = c.subscription_status || 'pending';
+    document.getElementById('edit-date').value = c.next_service_date || '';
+    document.getElementById('edit-address').value = c.address || '';
     document.getElementById('save-msg').style.display = 'none';
     document.getElementById('modal-overlay').classList.add('open');
   }
 
-  function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); editingCustomerId = null; }
+  document.getElementById('modal-close-btn').addEventListener('click', function(){ document.getElementById('modal-overlay').classList.remove('open'); });
+  document.getElementById('modal-overlay').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
 
-  async function saveCustomer() {
-    if (!editingCustomerId) return;
-    const btn = document.getElementById('save-btn');
-    btn.disabled = true; btn.textContent = 'Saving...';
-    const updates = {
+  document.getElementById('save-btn').addEventListener('click', async function(){
+    if (!editingId) return;
+    this.disabled=true; this.textContent='Saving...';
+    var updates = {
       plan: document.getElementById('edit-plan').value,
       subscription_status: document.getElementById('edit-status').value,
-      next_service_date: document.getElementById('edit-service-date').value || null,
-      address: document.getElementById('edit-address').value || null,
+      next_service_date: document.getElementById('edit-date').value || null,
+      address: document.getElementById('edit-address').value || null
     };
-    const { error } = await supabase.from('customers').update(updates).eq('id', editingCustomerId);
-    btn.disabled = false; btn.textContent = 'Save Changes';
-    if (error) { alert('Error saving: '+error.message); return; }
-    const msg = document.getElementById('save-msg');
-    msg.style.display = 'inline';
-    setTimeout(()=>msg.style.display='none', 2000);
-    // Update local data
-    const idx = allCustomers.findIndex(c=>c.id===editingCustomerId);
+    var result = await sb.from('customers').update(updates).eq('id', editingId);
+    this.disabled=false; this.textContent='Save Changes';
+    if (result.error) { alert('Error: '+result.error.message); return; }
+    var idx = allCustomers.findIndex(function(c){ return c.id===editingId; });
     if (idx>-1) Object.assign(allCustomers[idx], updates);
-    renderStats(); renderRecentSignups(); renderUpcomingService();
-    renderCustomersTable(allCustomers); renderSchedule(); renderRevenue();
-  }
+    document.getElementById('save-msg').style.display='inline';
+    setTimeout(function(){ document.getElementById('save-msg').style.display='none'; }, 2000);
+    renderStats(); renderRecentSignups(); renderUpcoming(); renderCustomersTable(allCustomers); renderSchedule(); renderRevenue();
+  });
 
-  async function confirmCancel() {
-    if (!editingCustomerId) return;
-    if (!confirm('Cancel this customer\'s subscription? This will set their status to cancelled.')) return;
+  document.getElementById('cancel-sub-btn').addEventListener('click', async function(){
+    if (!editingId) return;
+    if (!confirm('Cancel this subscription? This sets their status to cancelled.')) return;
     document.getElementById('edit-status').value = 'cancelled';
-    await saveCustomer();
-  }
+    document.getElementById('save-btn').click();
+  });
 
-  // ── NAVIGATION ────────────────────────────────────────────────────────────────
-  function showSection(name, el) {
-    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  // ── NAV ──
+  function showSection(name){
+    document.querySelectorAll('.page-section').forEach(function(s){ s.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
     document.getElementById('section-'+name).classList.add('active');
-    if (el) el.classList.add('active');
+    document.getElementById('nav-'+name).classList.add('active');
   }
+  document.getElementById('nav-dashboard').addEventListener('click', function(){ showSection('dashboard'); });
+  document.getElementById('nav-customers').addEventListener('click', function(){ showSection('customers'); });
+  document.getElementById('nav-schedule').addEventListener('click', function(){ showSection('schedule'); });
+  document.getElementById('nav-revenue').addEventListener('click', function(){ showSection('revenue'); });
 </script>
 </body>
 </html>
